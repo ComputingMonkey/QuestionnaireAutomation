@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+      <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+    <meta charset="utf-8">
+      <title>Questionnaire automation</title>
+  
+      <!-- <link rel="stylesheet" href="design.css"> -->
+  </head>
+  <body>
+      <div id="login">
+        <h2>Questionnaire automation</h2>
+        <form method = 'post' action = 'https://script.google.com/macros/s/AKfycbxqrG21J-sf01rksYI-v_cuLJAvMmIfNme25PwRnL-g97lBB31j/exec'><!--urlを入力-->
+          <span class="fontawesome-user"></span>
+            <input type="text" name = "url" placeholder="スプレッドシートのURL">
+          <input type="submit" value="送信">
+        <h3>非本質LINEに送信しますか？</h3>
+        <div class="sample">
+            <input type="radio" name= "notifySwitch" id="on" value="1">
+            <label for="on" class="switch-on">はい</label>
+            <input type="radio" name= "notifySwitch" id="off" value="0" checked="">
+            <label for="off" class="switch-off">いいえ</label><br>
+        </div>              
+          <h4><br>※MJ専用です<br>
+          ※メールアドレス収集済みのフォームに限ります
+          </h4>
+        </form>
+        <form>
+          <h3>
+            <?
+              var sheet = SpreadsheetApp.getActiveSheet();
+              var lastRow = sheet.getLastRow();
+              var lastCol = sheet.getLastColumn();
+              var yetNames = sheet.getRange(lastRow,1,1,lastCol).getValues();
+              yetNames[0].forEach(function( value ) {
+                output.append(value + '<br>');
+              });
+              var key = sheet.getRange(lastRow,1).getValue();
+              if(key != '送信を押すと未回答者が記録されます'){
+                sheet.getRange(lastRow,1,1,lastCol).clear();
+              }
+            ?>
+          </h3>
+        </form>
+      </div>
+  </body>
+</html>
